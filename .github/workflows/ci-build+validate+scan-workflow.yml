@@ -2,10 +2,10 @@ name: CI-Build-Validate-Scan
 
 on:
   push: 
-    branches:
+    branch:
       - develop
   pull_request:
-    branches: 
+    branch: 
       - main
 
 
