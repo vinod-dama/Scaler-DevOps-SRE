@@ -1,4 +1,4 @@
-name: Scaler Project 1 CI
+name: CI-Build-Validate-Scan
 
 on:
   push: 
