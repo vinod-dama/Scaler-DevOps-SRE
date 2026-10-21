@@ -38,7 +38,7 @@ jobs:
           
        - name: Run Unit Tests (pytest)
          run: |
-           pytest test.py  -v
+           pytest test/test.py  -v
 
        - name: Setup Docker Buildx
          uses: docker/setup-buildx-action@v3
