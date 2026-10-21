@@ -42,7 +42,7 @@ jobs:
            file: ./Dockerfile
            push: true
            tags: ${{ steps.meta.output.tags }}
-           labels: ${{ steps.meta.output.labels } }
+           labels: ${{ steps.meta.output.labels }}
 
 
            
