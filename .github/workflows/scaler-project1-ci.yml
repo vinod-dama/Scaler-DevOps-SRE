@@ -11,7 +11,7 @@ on:
 
 jobs:
    build-validate-and-scan:
-     runs-on: ubuntu-latet
+     runs-on: [ubuntu-latest]
      steps:
 
        - name: Checkout Repo Code
