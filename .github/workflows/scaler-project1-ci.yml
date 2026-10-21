@@ -53,7 +53,7 @@ jobs:
 
        # 7. Run Trivy Container Vulnerability Security Gate
        - name: Run Trivy Vulnerability Scanner
-         uses: aquasecurity/trivy-action@v0
+         uses: aquasecurity/trivy-action@v0.36.0
          with:
            image-ref: 'scaler-project1-app:v1'
            format: 'table'
