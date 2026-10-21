@@ -1,0 +1,61 @@
+name: Scaler Project 1 CI
+
+on:
+  push: 
+    branches:
+      - develop
+  pull_request:
+    branches: 
+      - main
+
+
+jobs:
+   build-validate-and-scan:
+     runs-on: [ubuntu-latest]
+     steps:
+
+       - name: Checkout Repo Code
+         uses: actions/checkout@v4
+      
+       - name: Setup python
+         uses: actions/setup-python@v5
+         with:
+           python-version: 3.11
+           cache: 'pip'
+        
+       - name: Install Dependencies
+         run: |
+           python -m pip install --upgrade pip
+           pip install -r requirements.txt 
+           pip install flake8 pytest
+
+       - name: Run Code Linting (Flake8)
+         run: |
+           # Lint python files, ignoring BIND_ADDR / 0.0.0.0 related rules if configured, or general E505 line lengths
+           flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+           flake8 . --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+              
+          
+       - name: Run Unit Tests (pytest)
+         run: |
+           pytest test/test_case.py  -v
+
+       - name: Setup Docker Buildx
+         uses: docker/setup-buildx-action@v3
+
+       - name: Build Contianer Image
+         uses:  docker/build-push-action@v5
+         with:
+           context: .
+           file: ./Dockerfile
+           load: true
+           tags: scaler-project1-app:v1
+
+       # 7. Run Trivy Container Vulnerability Security Gate
+       - name: Run Trivy Vulnerability Scanner
+         uses: aquasecurity/trivy-action@v0.36.0
+         with:
+           image-ref: 'scaler-project1-app:v1'
+           format: 'table'
+           exit-code: '0' # Set to '1' to fail the build on high/critical vulns if desired
+           severity: 'CRITICAL,HIGH'
