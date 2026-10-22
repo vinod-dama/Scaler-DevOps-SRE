@@ -1,17 +1,21 @@
-name: Scaler Project 1 CI
+name: CI-Build-Validate-Scan
+
+permissions:
+  contents: write
+  packages: write
 
 on:
   push: 
-    branches:
+    branch:
       - develop
   pull_request:
-    branches: 
+    branch: 
       - main
 
 
 jobs:
    build-validate-and-scan:
-     runs-on: [ubuntu-latest]
+     runs-on: [ ubuntu-latest ]
      steps:
 
        - name: Checkout Repo Code
