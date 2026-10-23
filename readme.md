@@ -37,7 +37,8 @@ The application code is provided in the repository. Your first task is to contai
 We use GitOps to manage our Kubernetes clusters. You need to automate the deployment of the image you just pushed.
 
 1. **ArgoCD Setup:**
-   - Install and configure ArgoCD on your local Kubernetes cluster - Completed till here
+   - Install and configure ArgoCD on your local Kubernetes cluster - *Completed till here*
+
    <img width="1915" height="1004" alt="Screenshot 2026-10-23 at 11 20 28" src="images/Screenshot 2026-10-23 at 11.20.28.png" />
 
 2. **Kubernetes Manifests:**
