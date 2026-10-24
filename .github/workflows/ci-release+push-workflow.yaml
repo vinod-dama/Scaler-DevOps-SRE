@@ -51,7 +51,7 @@ jobs:
        - name: Update Image Tag in Kubernetes Manifest
          run: |
            # Use sed to update the specific deployment file based on the matrix version
-           sed -i 's|image: ghcr.io/${{ github.repository }}/scaler-devops-sre:*|image: ghcr.io/${{ github.repository }}/scaler-devops-sre:${{ matrix.version }}-${{ github.run_number }}|g' k8s/deployment-${{ matrix.version }}.yaml
+           sed -i 's|scaler-devops-sre:*|scaler-devops-sre:${{ matrix.version }}-${{ github.run_number }}|g' k8s/deployment-${{ matrix.version }}.yaml
           
            # Configure git and push changes back to main branch
            git config --global user.name "GitHub Actions Bot"
