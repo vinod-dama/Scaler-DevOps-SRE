@@ -31,6 +31,7 @@ jobs:
          uses: docker/metadata-action@v5
          with: 
            images: ghcr.io/${{ github.repository }}/Scaler-DevOps-SRE
+           tags: |
               type=sha, format=long
               type=raw, value=latest,enable={{is_default_branch}}
 
