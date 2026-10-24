@@ -1,4 +1,4 @@
-apiVersions: v1
+apiVersion: v1
 kind: ConfigMap
 metadata:
   name: devops-sre-cm
