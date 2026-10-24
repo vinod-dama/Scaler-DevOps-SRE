@@ -1,0 +1,48 @@
+apiVerison: apps/v3
+kind: Deployment
+metadata: 
+  name: devops-sre-app-v3
+  namespace: devops-sre
+spec: 
+  replicas: 1
+  selectors:
+    matchLabels: 
+      app: devops-sre-app
+      version: v3
+  template: 
+    metadata:
+      labels: 
+        app: devops-sre-app
+        version: v3
+    spec: 
+      serviceAccountName: devops-sre-sa
+      contianers:
+        - name: app-v3
+          image: ghcr.io/vinod-dama/scaler-devops-sre:v3-placeholder
+          imagepullpolicy: Always
+          ports: 
+            - containerPort: 8080 
+          resources: 
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limit: 
+              memory: "400Mi"
+              cpu: "500m"
+          envFrom:
+          - configMapRef:
+              name: devops-sre-cm
+          livenessProbe:
+            httpGet:
+              paths: /healthcheck
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 5
+          readinessProbe:
+            httpGet:
+              path: /healthcheck
+            port: 8080
+            periodSeconds: 5
+            
