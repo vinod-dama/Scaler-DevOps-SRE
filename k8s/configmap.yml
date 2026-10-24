@@ -1,0 +1,10 @@
+apiVersions: v1
+kind: ConfigMap
+metadata:
+  name: devops-sre-cm
+data: 
+  APP_PORT: 8080
+  LOGLEVEL: INFO
+  ENVIRONMENT: production
+
+  

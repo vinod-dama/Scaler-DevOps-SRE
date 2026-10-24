@@ -11,6 +11,10 @@ on:
 jobs:
    Release-to-Registry:
     runs-on: [ubuntu-latest]
+    strategy: 
+      matrix:
+        python-version: ["3.11", "3.12", "3.13"]
+        
     steps:
        - name: Checkout Repo Code
          uses: actions/checkout@v4

@@ -1,9 +1,5 @@
 name: CI-Build-Validate-Scan
 
-permissions:
-  contents: write
-  packages: write
-
 on:
   push: 
     branch:
@@ -16,6 +12,11 @@ on:
 jobs:
    build-validate-and-scan:
      runs-on: [ ubuntu-latest ]
+     
+     permissions:
+         contents: write
+         packages: write
+         
      steps:
 
        - name: Checkout Repo Code

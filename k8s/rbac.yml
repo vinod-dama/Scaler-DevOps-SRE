@@ -1,0 +1,34 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata: 
+  name: devops-sre-role
+  namespace: devops-sre
+rules: 
+- apiGroups: ["apps"]
+  resources: ["deployment"]
+  verbs: ["get", "list", "watch", "update", "create", "delete", "patch"]
+
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["get", "list", "watch", "update", "create", "delete", "patch"]
+
+- apiGroups: [""]
+  resources: ["configmaps", "secrets"]
+  verbs: ["get", "list", "watch", "update", "create", "delete", "patch"]
+
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBindings
+metadata: 
+  name: devops-sre-rolebinding
+  namespace: devops-sre
+subjects:
+- kind: ServiceAccount
+  name: devops-sre-sa
+roleRef:
+  kind: Role
+  name: devops-sre-role
+  apiGroup: rbac.authorization.k8s.io
+
+
