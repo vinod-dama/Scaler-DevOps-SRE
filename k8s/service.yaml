@@ -4,7 +4,7 @@ metadata:
   name: devops-sre-service
   namespace: devops-sre
 spec:
-  type: load-balancer
+  type: LoadBalancer
   selector: 
     name: devops-sre-app
   ports: 
