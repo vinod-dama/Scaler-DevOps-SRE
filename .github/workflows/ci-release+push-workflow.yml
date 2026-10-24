@@ -31,6 +31,7 @@ jobs:
          uses: docker/metadata-action@v5
          with: 
            images: ghcr.io/${{ github.repository }}
+           tags: |
               type=sha, format=long
               type=raw, value=${{ matrix.version }}-${{ github.run_number }},enable={{is_default_branch}}
 
