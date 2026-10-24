@@ -65,7 +65,7 @@ jobs:
 
            git add k8s/
            git commit -m "ci: update image tag for ${{ matrix.version }} to ${{ matrix.version }}-${{ github.run_number }} " || echo "No changes to commit"
-           for i in {1..3}; do
+           for i in 1 2 3; do
             git pull --rebase origin ${{ github.ref_name }} && git push origin ${{ github.ref_name }} && break
             echo "Push failed, retrying in 3 seconds..."
             sleep 3
