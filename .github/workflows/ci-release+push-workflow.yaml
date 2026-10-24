@@ -2,15 +2,15 @@ name: CI-Release-to-Registry
 
 on:
   push: 
-    branch:
+    branches:
       - develop
   pull_request:
-    branch:
+    branches:
        - main
 
 jobs:
    Release-to-Registry:
-    runs-on: [ubuntu-latest]
+    runs-on: ubuntu-latest
     strategy: 
       matrix:
         version: ["v1", "v2", "v3"]
