@@ -2,15 +2,15 @@ name: CI-Release-to-Registry
 
 on:
   push: 
-    branch:
+    branches:
       - develop
   pull_request:
-    branch:
+    branches:
        - main
 
 jobs:
    Release-to-Registry:
-    runs-on: [ubuntu-latest]
+    runs-on: ubuntu-latest
     strategy: 
       matrix:
         version: ["v1", "v2", "v3"]
@@ -51,14 +51,25 @@ jobs:
        - name: Update Image Tag in Kubernetes Manifest
          run: |
            # Use sed to update the specific deployment file based on the matrix version
-           sed -i 's|image: ghcr.io/${{ github.repository }}/scaler-devops-sre:${{ matrix.version }}-.*|image: ghcr.io/${{ github.repository }}/scaler-devops-sre:${{ matrix.version }}-${{ github.run_number }}|g' k8s/deployment-${{ matrix.version }}.yaml
+           for file in k8s/deployment-*.yaml; do
+            current_image=$(grep "image:.*scaler-devops-sre:" "$file" | awk '{print $2}')
+            version=$(echo "$current_image" | sed -E 's/.*scaler-devops-sre:([vV][0-9]+)-.*/\1/')
+            
+            echo "Updating image tag for version: $version in file: $file"
+            sed -i "s|scaler-devops-sre:${version}-.*|scaler-devops-sre:${version}-${{ github.run_number }}|g" "$file"
+           done
           
            # Configure git and push changes back to main branch
            git config --global user.name "GitHub Actions Bot"
            git config --global user.email "actions@github.com"
+
            git add k8s/
-           git commit -m "ci: update image tag for ${{ matrix.version }} to ${{ matrix.version }}-${{ github.run_number }} [skip ci]" || echo "No changes to commit"
-           git push
+           git commit -m "ci: update image tag for ${{ matrix.version }} to ${{ matrix.version }}-${{ github.run_number }} " || echo "No changes to commit"
+           for i in 1 2 3; do
+            git pull --rebase origin ${{ github.ref_name }} && git push origin ${{ github.ref_name }} && break
+            echo "Push failed, retrying in 3 seconds..."
+            sleep 3
+           done
 
 
            
