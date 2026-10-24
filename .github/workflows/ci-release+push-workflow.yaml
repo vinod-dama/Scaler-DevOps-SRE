@@ -52,9 +52,9 @@ jobs:
          run: |
            # Use sed to update the specific deployment file based on the matrix version
            for file in k8s/deployment-*.yaml; do
-            version=$(basename "$file" .yaml | sed 's/deployment-//')
+            image_version=$(basename "$file" .yaml | sed 's/deployment-//')
             echo "Updating image tag for version: $version in file: $file"
-            sed -i "s|scaler-devops-sre:${v}-.*|scaler-devops-sre:${v}-${{ github.run_number }}|g" k8s/deployment-${{ v }}.yaml
+            sed -i "s|scaler-devops-sre:${image_version}-.*|scaler-devops-sre:${image_version}-${{ github.run_number }}|g" k8s/deployment-${{ v }}.yaml
            done
           
            # Configure git and push changes back to main branch
@@ -63,8 +63,6 @@ jobs:
 
            git add k8s/
            git commit -m "ci: update image tag for ${{ matrix.version }} to ${{ matrix.version }}-${{ github.run_number }} " || echo "No changes to commit"
-           #avoid race condition rejections on commits of image tags, will do rebase and then push
-           git pull --rebase origin main || true 
            git push
 
 
