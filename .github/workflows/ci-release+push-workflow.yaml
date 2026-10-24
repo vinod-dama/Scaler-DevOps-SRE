@@ -53,9 +53,10 @@ jobs:
            # Use sed to update the specific deployment file based on the matrix version
            for file in k8s/deployment-*.yaml; do
             current_image=$(grep "image:.*scaler-devops-sre:" "$file" | awk '{print $2}')
+            echo " current image: $current_image"
             version=$(echo "$current_image" | sed -E 's/.*scaler-devops-sre:([vV][0-9]+)-.*/\1/')
-            
-            echo "Updating image tag for version: $version in file: $file"
+            echo " current image: $current_image"
+            echo "Updating image tag versions: $version in file: $file"
             sed -i "s|scaler-devops-sre:${version}-.*|scaler-devops-sre:${version}-${{ github.run_number }}|g" "$file"
            done
           
