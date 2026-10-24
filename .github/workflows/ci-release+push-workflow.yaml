@@ -63,6 +63,7 @@ jobs:
 
            git add k8s/
            git commit -m "ci: update image tag for ${{ matrix.version }} to ${{ matrix.version }}-${{ github.run_number }} " || echo "No changes to commit"
+           git pull 
            git push
 
 
