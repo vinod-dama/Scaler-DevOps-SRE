@@ -13,8 +13,8 @@ jobs:
     runs-on: [ubuntu-latest]
     strategy: 
       matrix:
-        python-version: ["3.11", "3.12", "3.13"]
-        
+        version: ["v1.0.0", "v1.0.1", "v1.0.2"]
+
     steps:
        - name: Checkout Repo Code
          uses: actions/checkout@v4
@@ -30,7 +30,7 @@ jobs:
          id: meta
          uses: docker/metadata-action@v5
          with: 
-           images: ghcr.io/${{ github.repository }}/Scaler-DevOps-SRE
+           images: ghcr.io/${{ github.repository }}/Scaler-DevOps-SRE:${{ matrix.version }}
            tags: |
               type=sha, format=long
               type=raw, value=latest,enable={{is_default_branch}}
