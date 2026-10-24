@@ -69,7 +69,7 @@ jobs:
             git pull --rebase origin ${{ github.ref_name }} && git push origin ${{ github.ref_name }} && break
             echo "Push failed, retrying in 3 seconds..."
             sleep 3
-          done
+           done
 
 
            
