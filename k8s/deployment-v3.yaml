@@ -1,4 +1,4 @@
-apiVerison: apps/v3
+apiVerison: apps/v1
 kind: Deployment
 metadata: 
   name: devops-sre-app-v3
@@ -18,7 +18,7 @@ spec:
       serviceAccountName: devops-sre-sa
       contianers:
         - name: app-v3
-          image: ghcr.io/vinod-dama/scaler-devops-sre:v3-22
+          image: ghcr.io/vinod-dama/scaler-devops-sre:v3-24
           imagepullpolicy: Always
           ports: 
             - containerPort: 8080 
