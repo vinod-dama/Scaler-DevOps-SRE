@@ -7,10 +7,13 @@ on:
   pull_request:
     branches:
        - main
+    types:
+       - closed
 
 jobs:
    Release-to-Registry:
-    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true
+    runs-on: [ ubuntu-latest ]
     strategy: 
       matrix:
         version: ["v1", "v2", "v3"]
@@ -45,8 +48,9 @@ jobs:
            context: .
            file: ./Dockerfile
            push: true
-           tags: ${{ steps.meta.outputs.tags }}
-           labels: ${{ steps.meta.outputs.labels }}
+           tags: |
+              ghcr.io/${{ github.repository }}/scaler-devops-sre:${{ matrix.version }}-${{ github.run_number }}
+              ghcr.io/${{ github.repository }}/scaler-devops-sre:${{ matrix.version }}-latest
 
        - name: Update Image Tag in Kubernetes Manifest
          run: |
