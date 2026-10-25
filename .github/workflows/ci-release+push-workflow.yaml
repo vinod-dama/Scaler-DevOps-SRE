@@ -42,6 +42,10 @@ jobs:
        - name: Setup Docker Buildx
          uses: docker/setup-buildx-action@v3
 
+       - name: Lowercase Repository Name
+         run: |
+           echo "REPO_LOWER=${GITHUB_REPOSITORY,,}" >> $GITHUB_ENV
+
        - name: Build and Push Docker image
          uses: docker/build-push-action@v5
          with:
@@ -49,8 +53,8 @@ jobs:
            file: ./Dockerfile
            push: true
            tags: |
-              ghcr.io/${{ github.repository }}/scaler-devops-sre:${{ matrix.version }}-${{ github.run_number }}
-              ghcr.io/${{ github.repository }}/scaler-devops-sre:${{ matrix.version }}-latest
+              ghcr.io/${{ env.REPO_LOWER }}/scaler-devops-sre:${{ matrix.version }}-${{ github.run_number }}
+              ghcr.io/${{ env.REPO_LOWER }}/scaler-devops-sre:${{ matrix.version }}-latest
 
        - name: Update Image Tag in Kubernetes Manifest
          run: |
