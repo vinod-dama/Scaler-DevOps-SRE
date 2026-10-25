@@ -52,6 +52,11 @@ We use GitOps to manage our Kubernetes clusters. You need to automate the deploy
    - Instead of just a basic deployment, design and implement a production-grade Kubernetes footprint using your own innovation. 
    - You must implement at least the following, but you have full creative freedom on how to securely configure them: **Namespaces**, **ConfigMaps & Secrets**, **initContainers**, **RBAC** (ServiceAccounts, Roles), **NetworkPolicies**, and **ResourceQuotas**.
 
+
+   <img width="1915" height="1004" alt="Screenshot 2026-10-25 at 13 06 05" src="images/Screenshot 2026-10-25 at 13.06.05.png" />
+
+
+
 ---
 
 ## Task 3: Observability, Logging, & Alerting
