@@ -52,6 +52,7 @@ jobs:
            context: .
            file: ./Dockerfile
            push: true
+           platforms: linux/amd64,linux/arm64
            tags: |
               ghcr.io/${{ env.REPO_LOWER }}/scaler-devops-sre:${{ matrix.version }}-${{ github.run_number }}
               ghcr.io/${{ env.REPO_LOWER }}/scaler-devops-sre:${{ matrix.version }}-latest
