@@ -37,11 +37,11 @@ The application code is provided in the repository. Your first task is to contai
 We use GitOps to manage our Kubernetes clusters. You need to automate the deployment of the image you just pushed.
 
 1. **ArgoCD Setup:**
-   - Install and configure ArgoCD on your local Kubernetes cluster - *Completed till here*
+   - Install and configure ArgoCD on your local Kubernetes cluster
 
    <img width="1915" height="1004" alt="Screenshot 2026-10-23 at 11 20 28" src="images/Screenshot 2026-10-23 at 11.20.28.png" />
 
-2. **Kubernetes Manifests:**
+2. **Kubernetes Manifests:**. - **Completed till here**
    - Since your pipeline builds multiple image versions, you must run them simultaneously in your cluster. Create **three separate Deployments** (one for each image version built by your matrix).
    - Create a **single shared Kubernetes Service** that acts as a load balancer to route traffic evenly across all three Deployments.
    - **Crucial:** Since the application has a known memory leak (designed to reach 500MB over 2 minutes), you must configure **Resource Requests and Limits** for all Pods. Set the memory limit explicitly to `400Mi` so that the Kubernetes scheduler terminates the pod (`OOMKilled`) well before it consumes node resources.
@@ -59,7 +59,7 @@ We use GitOps to manage our Kubernetes clusters. You need to automate the deploy
 
 ---
 
-## Task 3: Observability, Logging, & Alerting
+## Task 3: Observability, Logging, & Alerting - *InProgress*
 
 Visibility into the cluster and the application's behavior is critical.
 
