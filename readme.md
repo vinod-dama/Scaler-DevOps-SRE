@@ -54,7 +54,8 @@ We use GitOps to manage our Kubernetes clusters. You need to automate the deploy
 
 
    <img width="1915" height="1004" alt="Screenshot 2026-10-25 at 13 06 05" src="images/Screenshot 2026-10-25 at 13.06.05.png" />
-   
+
+
 
 ---
 
