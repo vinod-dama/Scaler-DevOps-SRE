@@ -18,7 +18,7 @@ spec:
       serviceAccountName: devops-sre-sa
       contianers:
         - name: app-v2
-          image: ghcr.io/vinod-dama/scaler-devops-sre:v2-22
+          image: ghcr.io/vinod-dama/scaler-devops-sre:v2-24
           imagepullpolicy: Always
           ports: 
             - containerPort: 8080 
