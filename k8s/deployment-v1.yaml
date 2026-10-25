@@ -5,7 +5,7 @@ metadata:
   namespace: devops-sre
 spec: 
   replicas: 1
-  selectors:
+  selector:
     matchLabels: 
       app: devops-sre-app
       version: v1
@@ -16,33 +16,33 @@ spec:
         version: v1
     spec: 
       serviceAccountName: devops-sre-sa
-      contianers:
-        - name: app-v1
-          image: ghcr.io/vinod-dama/scaler-devops-sre:v1-24
-          imagepullpolicy: Always
-          ports: 
-            - containerPort: 8080 
-          resources: 
-            requests:
-              memory: "128Mi"
-              cpu: "100m"
-            limit: 
-              memory: "400Mi"
-              cpu: "500m"
-          envFrom:
-          - configMapRef:
-              name: devops-sre-cm
-          livenessProbe:
-            httpGet:
-              paths: /healthcheck
-              port: 8080
-            initialDelaySeconds: 10
-            periodSeconds: 5
-            timeoutSeconds: 3
-            failureThreshold: 5
-          readinessProbe:
-            httpGet:
-              path: /healthcheck
+      containers:
+      - name: app-v1
+        image: ghcr.io/vinod-dama/scaler-devops-sre:v1-24
+        imagePullPolicy: Always
+        ports: 
+        - containerPort: 8080 
+        resources: 
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits: 
+            memory: "400Mi"
+            cpu: "500m"
+        envFrom:
+        - configMapRef:
+            name: devops-sre-cm
+        livenessProbe:
+          httpGet:
+            path: /healthcheck
             port: 8080
-            periodSeconds: 5
-            
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 5
+        readinessProbe:
+          httpGet:
+            path: /healthcheck
+            port: 8080
+          periodSeconds: 5
+          
