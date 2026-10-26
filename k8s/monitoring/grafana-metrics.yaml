@@ -1,56 +1,105 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: sre-app-metrics-dashboard
+  name: grafana-dashboards-config
   namespace: monitoring
   labels:
-    grafana_dashboard: "1"  # Prerequisite 1: Label for auto-discovery
+    grafana_dashboard: "1"
 data:
-  sre-pods.json: |
+  sre-overview.json: |
     {
-      "title": "SRE Pod Performance & Memory Spikes",
-      "timezone": "browser",
-      "schemaVersion": 38,
-      "version": 1,
-      "refresh": "10s",
+      "annotations": {
+        "list": [
+          {
+            "builtIn": 1,
+            "datasource": "-- Grafana --",
+            "enable": true,
+            "hide": true,
+            "iconColor": "rgba(0, 211, 255, 1)",
+            "name": "Annotations & Alerts",
+            "type": "dashboard"
+          }
+        ]
+      },
+      "editable": true,
+      "fiscalYearStartMonth": 0,
+      "graphTooltip": 0,
+      "id": null,
+      "links": [],
+      "liveNow": false,
       "panels": [
         {
-          "id": 1,
-          "title": "Pod Working Set Memory (Tracking Spikes)",
+          "title": "Pod Memory Usage (Tracking Spikes)",
           "type": "timeseries",
-          "gridPos": { "h": 8, "w": 12, "x": 0, "y": 0 },
+          "gridPos": { "h": 9, "w": 12, "x": 0, "y": 0 },
           "datasource": { "type": "prometheus", "uid": "prometheus" },
           "fieldConfig": {
             "defaults": {
-              "unit": "bytes",
-              "custom": { "drawStyle": "line", "lineInterpolation": "smooth" }
+              "custom": {
+                "drawStyle": "line",
+                "lineInterpolation": "smooth"
+              },
+              "unit": "bytes"
             }
           },
           "targets": [
             {
+              "datasource": { "type": "prometheus", "uid": "prometheus" },
               "expr": "container_memory_working_set_bytes{namespace=\"devops-sre\", container!=\"\"}",
-              "legendFormat": "{{pod}}"
+              "legendFormat": "{{pod}} ({{container}})"
             }
           ]
         },
         {
-          "id": 2,
           "title": "Pod CPU Usage Rate",
           "type": "timeseries",
-          "gridPos": { "h": 8, "w": 12, "x": 12, "y": 0 },
+          "gridPos": { "h": 9, "w": 12, "x": 12, "y": 0 },
           "datasource": { "type": "prometheus", "uid": "prometheus" },
           "fieldConfig": {
             "defaults": {
-              "unit": "short",
-              "custom": { "drawStyle": "line", "lineInterpolation": "smooth" }
+              "custom": {
+                "drawStyle": "line",
+                "lineInterpolation": "smooth"
+              },
+              "unit": "short"
             }
           },
           "targets": [
             {
+              "datasource": { "type": "prometheus", "uid": "prometheus" },
               "expr": "rate(container_cpu_usage_seconds_total{namespace=\"devops-sre\", container!=\"\"}[5m])",
-              "legendFormat": "{{pod}}"
+              "legendFormat": "{{pod}} ({{container}})"
             }
           ]
         }
-      ]
+      ],
+      "refresh": "10s",
+      "schemaVersion": 38,
+      "style": "dark",
+      "tags": ["sre", "devops-sre"],
+      "time": {
+        "from": "now-1h",
+        "to": "now"
+      },
+      "title": "SRE Application & Infrastructure Overview",
+      "version": 1,
+      "weekStart": ""
     }
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-dashboards-provider
+  namespace: monitoring
+data:
+  dashboard.yaml: |
+    apiVersion: 1
+    providers:
+      - name: 'default'
+        orgId: 1
+        folder: ''
+        type: 'file'
+        disableDeletion: false
+        editable: true
+        options:
+          path: /var/lib/grafana/dashboards
