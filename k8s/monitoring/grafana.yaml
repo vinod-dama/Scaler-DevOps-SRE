@@ -35,7 +35,8 @@ spec:
           value: "false"
         volumeMounts:
         - name: dashboard-volume
-          mountPath: /var/lib/grafana/dashboards
+          mountPath: /var/lib/grafana/dashboards/sre-overview.json
+          subPath: sre-overview.json
         - name: provisioning-volume
           mountPath: /etc/grafana/provisioning/dashboards/dashboards.yaml
           subPath: dashboards.yaml
