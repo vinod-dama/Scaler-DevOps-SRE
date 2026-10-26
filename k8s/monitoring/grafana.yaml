@@ -42,7 +42,7 @@ spec:
       volumes:
       - name: dashboard-volume
         configMap:
-          name: sre-app-metrics-dashboard
+          name: grafana-dashboards-config
       - name: provisioning-volume
         configMap:
           name: grafana-provisioning-config
