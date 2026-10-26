@@ -1,0 +1,56 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sre-app-metrics-dashboard
+  namespace: monitoring
+  labels:
+    grafana_dashboard: "1"  # Prerequisite 1: Label for auto-discovery
+data:
+  sre-pods.json: |
+    {
+      "title": "SRE Pod Performance & Memory Spikes",
+      "timezone": "browser",
+      "schemaVersion": 38,
+      "version": 1,
+      "refresh": "10s",
+      "panels": [
+        {
+          "id": 1,
+          "title": "Pod Working Set Memory (Tracking Spikes)",
+          "type": "timeseries",
+          "gridPos": { "h": 8, "w": 12, "x": 0, "y": 0 },
+          "datasource": { "type": "prometheus", "uid": "prometheus" },
+          "fieldConfig": {
+            "defaults": {
+              "unit": "bytes",
+              "custom": { "drawStyle": "line", "lineInterpolation": "smooth" }
+            }
+          },
+          "targets": [
+            {
+              "expr": "container_memory_working_set_bytes{namespace=\"devops-sre\", container!=\"\"}",
+              "legendFormat": "{{pod}}"
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "title": "Pod CPU Usage Rate",
+          "type": "timeseries",
+          "gridPos": { "h": 8, "w": 12, "x": 12, "y": 0 },
+          "datasource": { "type": "prometheus", "uid": "prometheus" },
+          "fieldConfig": {
+            "defaults": {
+              "unit": "short",
+              "custom": { "drawStyle": "line", "lineInterpolation": "smooth" }
+            }
+          },
+          "targets": [
+            {
+              "expr": "rate(container_cpu_usage_seconds_total{namespace=\"devops-sre\", container!=\"\"}[5m])",
+              "legendFormat": "{{pod}}"
+            }
+          ]
+        }
+      ]
+    }
