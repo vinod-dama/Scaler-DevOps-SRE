@@ -1,0 +1,82 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-alert-rules
+  namespace: monitoring
+data:
+  alerting.yaml: |
+    apiVersion: 1
+    groups:
+      - orgId: 1
+        name: devops-sre-alerts
+        folder: SRE-Alerts
+        interval: 1m
+        rules:
+          # Rule 1: Detect Pod Health Failures (Down or Unready)
+          - uid: pod_down_alert
+            title: "SRE App - Pod Down or Unready"
+            condition: A
+            data:
+              - refId: A
+                relativeTimeRange:
+                  from: 300
+                  to: 0
+                datasourceUid: prometheus
+                model:
+                  editorMode: code
+                  expr: sum(kube_pod_status_ready{namespace="devops-sre", condition="true"}) < 1
+                  instant: true
+                  range: false
+            noDataState: NoData
+            execErrState: Alerting
+            for: 1m
+            annotations:
+              summary: "Application pods in devops-sre are down or unready!"
+              description: "Fewer than 1 pod is reporting Ready status in the devops-sre namespace."
+            labels:
+              severity: critical
+              team: sre
+
+          # Rule 2: Detect OOMKilled / Memory Crash Events
+          - uid: oom_killed_alert
+            title: "SRE App - OOMKilled Detected"
+            condition: A
+            data:
+              - refId: A
+                relativeTimeRange:
+                  from: 300
+                  to: 0
+                datasourceUid: prometheus
+                model:
+                  editorMode: code
+                  expr: increase(kube_pod_container_status_terminated_reason{namespace="devops-sre", reason="OOMKilled"}[5m]) > 0
+                  instant: true
+                  range: false
+            noDataState: OK
+            execErrState: Alerting
+            for: 0s
+            annotations:
+              summary: "Python memory-leak app hit OOMKilled limit!"
+              description: "A container in the devops-sre namespace was terminated due to out-of-memory (OOM)."
+            labels:
+              severity: page
+              team: sre
+
+    contactPoints:
+      - orgId: 1
+        name: Slack-SRE-Channel
+        receivers:
+          - uid: slack_webhook_receiver
+            type: slack
+            settings:
+              url: "https://hooks.slack.com/" 
+              recipient: "#sre-alerts"
+              text: "Alert: {{ .CommonAnnotations.summary }}\n{{ .CommonAnnotations.description }}"
+
+    policies:
+      - orgId: 1
+        receiver: Slack-SRE-Channel
+        group_by: ['alertname', 'namespace']
+        group_wait: 30s
+        group_interval: 5m
+        repeat_interval: 4h
