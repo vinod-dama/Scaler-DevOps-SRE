@@ -41,7 +41,7 @@ We use GitOps to manage our Kubernetes clusters. You need to automate the deploy
 1. **ArgoCD Setup:**
    - Install and configure ArgoCD on your local Kubernetes cluster - *Completed till here*
 
-   <img width="1915" height="1004" alt="Screenshot 2026-10-23 at 11 20 28" src="images/Screenshot 2026-10-23 at 11.20.28.png" />
+   <img width="1915" height="1004" alt="Argocd-setup" src="images/Argocd-setup.png" />
 
 2. **Kubernetes Manifests:**
    - Since your pipeline builds multiple image versions, you must run them simultaneously in your cluster. Create **three separate Deployments** (one for each image version built by your matrix).
