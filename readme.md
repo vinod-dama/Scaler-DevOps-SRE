@@ -2,6 +2,8 @@
 
 ## Overview
 
+# Note: Observability using helm was causing crashloopbackoff and OOOM exceptions beacuse of system resources usage consumeption, So for now used individual manifest files like Garafan, Proehteus, ELK to setup the same.
+
 You have been assigned to deploy and manage a new microservice for our infrastructure. The application is a lightweight Python service that is known to have a memory leak, it starts at around 100MB and slowly increases its memory footprint to 1GB over the course of 5 minutes. It also generates standard application logs. 
 
 Your mission is to build a secure delivery pipeline, implement a GitOps deployment strategy, and set up robust observability and alerting to catch the application when it inevitably crashes.
