@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: elasticsearch
+  namespace: monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: elasticsearch
+  template:
+    metadata:
+      labels:
+        app: elasticsearch
+    spec:
+      containers:
+      - name: elasticsearch
+        image: docker.elastic.co/elasticsearch/elasticsearch:8.11.3
+        ports:
+        - containerPort: 9200
+          name: http
+        env:
+        - name: discovery.type
+          value: "single-node"
+        - name: xpack.security.enabled
+          value: "false"  # Disabled for simple local minikube lab setup
+        resources:
+          requests:
+            cpu: "500m"
+            memory: "1Gi"
+          limits:
+            cpu: "1000m"
+            memory: "2Gi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: elasticsearch
+  namespace: monitoring
+spec:
+  ports:
+  - port: 9200
+    targetPort: 9200
+    name: http
+  selector:
+    app: elasticsearch

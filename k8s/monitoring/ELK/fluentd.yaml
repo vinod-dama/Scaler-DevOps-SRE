@@ -1,0 +1,84 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fluent-bit-config
+  namespace: monitoring
+data:
+  fluent-bit.conf: |
+    [SERVICE]
+      Flush         1
+      Log_Level     info
+      Daemon        off
+      Parsers_File  parsers.conf
+
+    [INPUT]
+      Name              tail
+      Tag               kube.*
+      Path              /var/log/pods/devops-sre_*/*/*.log
+      Parser            docker
+      Mem_Buf_Limit     50MB
+      Skip_Long_Lines   On
+      Refresh_Interval  10
+
+    [OUTPUT]
+      Name                es
+      Match               kube.*
+      Host                elasticsearch.monitoring.svc.cluster.local
+      Port                9200
+      Index               devops-sre-logs
+      Suppress_Type_Name  On
+
+  parsers.conf: |
+    [PARSER]
+      Name        docker
+      Format      json
+      Time_Key    time
+      Time_Format %Y-%m-%dT%H:%M:%S.%L
+      Time_Keep   On
+
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: fluent-bit
+  namespace: monitoring
+spec:
+  selector:
+    matchLabels:
+      app: fluent-bit
+  template:
+    metadata:
+      labels:
+        app: fluent-bit
+    spec:
+      serviceAccountName: fluent-bit
+      containers:
+      - name: fluent-bit
+        image: fluent/fluent-bit:2.2.0
+        imagePullPolicy: IfNotPresent
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "300m"
+            memory: "256Mi"
+        volumeMounts:
+        - name: varlog
+          mountPath: /var/log
+          readOnly: true
+        - name: varlibdockercontainers
+          mountPath: /var/lib/docker/containers
+          readOnly: true
+        - name: config-volume
+          mountPath: /fluent-bit/etc/
+      volumes:
+      - name: varlog
+        hostPath:
+          path: /var/log
+      - name: varlibdockercontainers
+        hostPath:
+          path: /var/lib/docker/containers
+      - name: config-volume
+        configMap:
+          name: fluent-bit-config

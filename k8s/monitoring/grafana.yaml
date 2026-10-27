@@ -40,7 +40,13 @@ spec:
         - name: provisioning-volume
           mountPath: /etc/grafana/provisioning/dashboards/dashboards.yaml
           subPath: dashboards.yaml
+        - name: alert-volume
+          mountPath: /etc/grafana/provisioning/alerting/alerting.yaml
+          subPath: alerting.yaml
       volumes:
+      - name: alert-volume
+        configMap:
+          name: grafana-alert-rules
       - name: dashboard-volume
         configMap:
           name: grafana-dashboards-config
