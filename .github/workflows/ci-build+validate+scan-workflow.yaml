@@ -4,6 +4,8 @@ on:
   push: 
     branches:
       - develop
+    paths:
+       - .github/workflows/ci-build+validate+scan-workflow.yaml 
   pull_request:
     branches: 
       - main
