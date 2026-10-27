@@ -69,11 +69,14 @@ Visibility into the cluster and the application's behavior is critical.
      - **Node Metrics:** CPU, Memory, and Disk usage.
      - **Pod & Cluster Metrics:** CPU and Memory usage per pod.
    - **Log Aggregation / Tracing:** Since Prometheus only handles metrics, you must implement an additional observability stack of your choice (e.g., ELK/EFK stack, Loki, or similar) to capture and aggregate the application logs centrally.
+   <img width="1915" height="1004" alt="kibana" src="images/kibana.png" />
 2. **Alerting:**
    - Configure **Grafana Alerts** to trigger notifications for the following scenarios:
      - **Application Health Check Failures** (Pod goes down or becomes unready).
      - **OOMKilled Events** (Triggered when the application hits its memory limit).
+     <img width="1915" height="1004" alt="slack channel" src="images/slack channel.png" />
    - *Bonus:* Route these alerts to a Slack webhook or an email address.
+
 
 ---
 
