@@ -2,6 +2,8 @@
 
 ## Overview
 
+# Note: Observability using helm was causing crashloopbackoff and OOOM exceptions beacuse of system resources usage consumeption, So for now used individual manifest files like Garafan, Proehteus, ELK to setup the same.
+
 You have been assigned to deploy and manage a new microservice for our infrastructure. The application is a lightweight Python service that is known to have a memory leak, it starts at around 100MB and slowly increases its memory footprint to 1GB over the course of 5 minutes. It also generates standard application logs. 
 
 Your mission is to build a secure delivery pipeline, implement a GitOps deployment strategy, and set up robust observability and alerting to catch the application when it inevitably crashes.
@@ -53,7 +55,7 @@ We use GitOps to manage our Kubernetes clusters. You need to automate the deploy
    - You must implement at least the following, but you have full creative freedom on how to securely configure them: **Namespaces**, **ConfigMaps & Secrets**, **initContainers**, **RBAC** (ServiceAccounts, Roles), **NetworkPolicies**, and **ResourceQuotas**.
 
 
-   <img width="1915" height="1004" alt="Screenshot 2026-10-25 at 13 06 05" src="images/Screenshot 2026-10-25 at 13.06.05.png" />
+   <img width="1915" height="1004" alt="Argocd-sync" src="images/Argocd-sync.png" />
 
 
 
@@ -74,8 +76,9 @@ Visibility into the cluster and the application's behavior is critical.
    - Configure **Grafana Alerts** to trigger notifications for the following scenarios:
      - **Application Health Check Failures** (Pod goes down or becomes unready).
      - **OOMKilled Events** (Triggered when the application hits its memory limit).
-     <img width="1915" height="1004" alt="slack channel" src="images/slack channel.png" />
+
    - *Bonus:* Route these alerts to a Slack webhook or an email address.
+   <img width="1915" height="1004" alt="slack channel" src="images/slack channel.png" />
 
 
 ---
