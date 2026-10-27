@@ -53,7 +53,7 @@ We use GitOps to manage our Kubernetes clusters. You need to automate the deploy
    - You must implement at least the following, but you have full creative freedom on how to securely configure them: **Namespaces**, **ConfigMaps & Secrets**, **initContainers**, **RBAC** (ServiceAccounts, Roles), **NetworkPolicies**, and **ResourceQuotas**.
 
 
-   <img width="1915" height="1004" alt="Screenshot 2026-10-25 at 13 06 05" src="images/Screenshot 2026-10-25 at 13.06.05.png" />
+   <img width="1915" height="1004" alt="Argocd-sync" src="images/Argocd-sync.png" />
 
 
 
@@ -74,8 +74,9 @@ Visibility into the cluster and the application's behavior is critical.
    - Configure **Grafana Alerts** to trigger notifications for the following scenarios:
      - **Application Health Check Failures** (Pod goes down or becomes unready).
      - **OOMKilled Events** (Triggered when the application hits its memory limit).
-     <img width="1915" height="1004" alt="slack channel" src="images/slack channel.png" />
+
    - *Bonus:* Route these alerts to a Slack webhook or an email address.
+   <img width="1915" height="1004" alt="slack channel" src="images/slack channel.png" />
 
 
 ---
