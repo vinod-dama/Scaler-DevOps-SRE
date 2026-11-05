@@ -60,7 +60,7 @@ EXPOSE 8080
 
 # Built-in Container Health Check (Adjust port/path to match app.py)
 HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
-  CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:8080/health').read()" || exit 1
+  CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:8080/healthcheck').read()" || exit 1
 
 # Entrypoint/Cmd to launch the application using an WSGI server (or app runner)
 CMD ["python", "app.py"]
