@@ -64,5 +64,5 @@ jobs:
          with:
            image-ref: 'scaler-project1-app:v1'
            format: 'table'
-           exit-code: '0' # Set to '1' to fail the build on high/critical vulns if desired
+           exit-code: '1' # Set to '1' to fail the build on high/critical vulns if desired
            severity: 'CRITICAL,HIGH'
