@@ -61,7 +61,7 @@ We use GitOps to manage our Kubernetes clusters. You need to automate the deploy
 
 ---
 
-## Task 3: Observability, Logging, & Alerting - *InProgress*
+## Task 3: Observability, Logging, & Alerting
 
 Visibility into the cluster and the application's behavior is critical.
 
